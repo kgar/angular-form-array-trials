@@ -57,7 +57,10 @@ export class AppComponent implements OnInit {
     });
     this.petsFormArray2.valueChanges.subscribe((_) => {
       console.log('Form Array changed!');
-      this.view = this.petsFormArray2.controls;
+
+      setTimeout(() => {
+        this.view = this.petsFormArray2.controls;
+      }, 0);
     });
   }
 

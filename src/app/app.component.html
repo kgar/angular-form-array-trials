@@ -48,5 +48,10 @@
         </select>
       </ng-template>
     </kendo-grid-column>
+    <kendo-grid-column>
+      <ng-template kendoGridCellTemplate let-rowIndex="rowIndex">
+        <button (click)="removePet(rowIndex)">Delete</button>
+      </ng-template>
+    </kendo-grid-column>
   </kendo-grid>
 </ng-container>
