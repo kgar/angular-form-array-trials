@@ -9,17 +9,44 @@
 
   <p>And what about your pets???</p>
 
-  <div formArrayName="pets" *ngFor="let item of petsFormArray; let i = index">
+  <div
+    formArrayName="pets"
+    *ngFor="let item of petsFormArray2.controls; let i = index"
+  >
     <ng-container [formGroupName]="i">
-      <span>
-        Name: <input formControlName="name" />
-      </span> | <span>
-        Classification: <input formControlName="classification" />
-      </span>
+      <span> Name: <input formControlName="name" /> </span> |
+      <span> Classification: <input formControlName="classification" /> </span>
       <button type="button" (click)="removePet(i)">Delete</button>
     </ng-container>
   </div>
 
   <button type="button" (click)="addNewEntry()">Add New Pet</button>
 
+  <kendo-grid
+    [data]="view"
+    [pageable]="false"
+    [sortable]="false"
+  >
+    <kendo-grid-column title="Name">
+      <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+        <input
+          kendoTextBox
+          [formControl]="dataItem.get('name')"
+          (change)="setValue(dataItem.get('name'), $event)"
+        />
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column title="Classification">
+      <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+        <select
+          [formControl]="dataItem.get('classification')"
+          (change)="setValue(dataItem.get('classification'), $event)"
+        >
+          <option value="Cat">Cat</option>
+          <option value="Evil Cat">Evil Cat</option>
+          <option value="Doggo">Doggo</option>
+        </select>
+      </ng-template>
+    </kendo-grid-column>
+  </kendo-grid>
 </ng-container>

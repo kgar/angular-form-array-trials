@@ -1,10 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
   FormArray,
   AbstractControl,
+  FormControl,
 } from '@angular/forms';
+import { State, process } from '@progress/kendo-data-query';
+import { Observable } from 'rxjs';
+import {
+  GridDataResult,
+  DataBindingDirective,
+} from '@progress/kendo-angular-grid';
+import { map } from 'rxjs/operators';
 
 interface PetOwner {
   name: string;
@@ -22,12 +30,18 @@ interface Pet {
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  view: any;
   title = 'form-array-trials';
   formGroup: FormGroup;
   get petsFormArray(): AbstractControl[] {
     return !this.formGroup
       ? []
       : (this.formGroup.get('pets') as FormArray).controls;
+  }
+  get petsFormArray2(): FormArray {
+    return !this.formGroup
+      ? undefined
+      : (this.formGroup.get('pets') as FormArray);
   }
 
   constructor(private formBuilder: FormBuilder) {}
@@ -40,6 +54,10 @@ export class AppComponent implements OnInit {
         this.createPetEntry({ name: 'Nova', classification: 'Evil Cat' }),
         this.createPetEntry({ name: 'Zorro', classification: 'Doggo' }),
       ]),
+    });
+    this.petsFormArray2.valueChanges.subscribe((_) => {
+      console.log('Form Array changed!');
+      this.view = this.petsFormArray2.controls;
     });
   }
 
@@ -57,5 +75,10 @@ export class AppComponent implements OnInit {
   removePet(index: number): void {
     const formArray = this.formGroup.get('pets') as FormArray;
     formArray.removeAt(index);
+  }
+
+  setValue(control: FormControl, $event: InputEvent) {
+    const input = $event.currentTarget as HTMLInputElement;
+    control.setValue(input.value);
   }
 }
