@@ -33,12 +33,8 @@ export class AppComponent implements OnInit {
   view: any;
   title = 'form-array-trials';
   formGroup: FormGroup;
-  get petsFormArray(): AbstractControl[] {
-    return !this.formGroup
-      ? []
-      : (this.formGroup.get('pets') as FormArray).controls;
-  }
-  get petsFormArray2(): FormArray {
+
+  get petsFormArray(): FormArray {
     return !this.formGroup
       ? undefined
       : (this.formGroup.get('pets') as FormArray);
@@ -51,11 +47,11 @@ export class AppComponent implements OnInit {
       name: [''],
       pets: this.formBuilder.array([]),
     });
-    this.petsFormArray2.valueChanges.subscribe((_) => {
+    this.petsFormArray.valueChanges.subscribe((_) => {
       console.log('Form Array changed!');
 
       setTimeout(() => {
-        this.view = this.petsFormArray2.controls;
+        this.view = this.petsFormArray.controls;
       }, 0);
     });
 
@@ -83,6 +79,12 @@ export class AppComponent implements OnInit {
 
   addNewEntry(): void {
     this.petsFormArray.push(this.createPetEntry({}));
+    this.refreshGrid();
+  }
+
+  refreshGrid(): void {
+    this.view = [];
+    this.view = this.petsFormArray.controls;
   }
 
   removePet(index: number): void {
