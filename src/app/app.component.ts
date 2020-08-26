@@ -48,12 +48,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
-      name: ['Kevin'],
-      pets: this.formBuilder.array([
-        this.createPetEntry({ name: 'Inca', classification: 'Cat' }),
-        this.createPetEntry({ name: 'Nova', classification: 'Evil Cat' }),
-        this.createPetEntry({ name: 'Zorro', classification: 'Doggo' }),
-      ]),
+      name: [''],
+      pets: this.formBuilder.array([]),
     });
     this.petsFormArray2.valueChanges.subscribe((_) => {
       console.log('Form Array changed!');
@@ -62,6 +58,20 @@ export class AppComponent implements OnInit {
         this.view = this.petsFormArray2.controls;
       }, 0);
     });
+
+    this.formGroup.patchValue({
+      name: 'Kevin',
+    });
+
+    let pets = [
+      this.createPetEntry({ name: 'Inca', classification: 'Cat' }),
+      this.createPetEntry({ name: 'Nova', classification: 'Evil Cat' }),
+      this.createPetEntry({ name: 'Zorro', classification: 'Doggo' }),
+    ];
+
+    let formArray = this.formGroup.get('pets') as FormArray;
+
+    pets.forEach(petFormGroup => formArray.push(petFormGroup));
   }
 
   createPetEntry(pet: Pet): FormGroup {

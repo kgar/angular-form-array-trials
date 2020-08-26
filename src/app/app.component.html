@@ -9,17 +9,6 @@
 
   <p>And what about your pets???</p>
 
-  <div
-    formArrayName="pets"
-    *ngFor="let item of petsFormArray2.controls; let i = index"
-  >
-    <ng-container [formGroupName]="i">
-      <span> Name: <input formControlName="name" /> </span> |
-      <span> Classification: <input formControlName="classification" /> </span>
-      <button type="button" (click)="removePet(i)">Delete</button>
-    </ng-container>
-  </div>
-
   <button type="button" (click)="addNewEntry()">Add New Pet</button>
 
   <kendo-grid
@@ -54,4 +43,7 @@
       </ng-template>
     </kendo-grid-column>
   </kendo-grid>
+
+  <p>Form data:</p>
+  <p>{{ formGroup.value | json }}</p>
 </ng-container>
