@@ -79,12 +79,6 @@ export class AppComponent implements OnInit {
 
   addNewEntry(): void {
     this.petsFormArray.push(this.createPetEntry({}));
-    this.refreshGrid();
-  }
-
-  refreshGrid(): void {
-    this.view = [];
-    this.view = this.petsFormArray.controls;
   }
 
   removePet(index: number): void {
